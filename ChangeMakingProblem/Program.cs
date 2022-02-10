@@ -15,8 +15,48 @@ namespace ChangeMakingProblem
     {
         public static void Main(string[] args)
         {
-            TestChangeMaking();
+            TestCoinChange2();
         }
+        static void TestCoinChange2()
+        {
+            List<int> denominations;
+            int k;
+
+            denominations = new() { 1, 3, 4 };
+            k = 6;
+            Console.WriteLine(String.Join(",", Result.CoinChange2(denominations, k)));
+            Console.WriteLine("Expected: 3, 3");
+
+            denominations = new() { 1, 5, 10, 25 };
+            k = 78;
+            Console.WriteLine(String.Join(",", Result.CoinChange2(denominations, k)));
+            Console.WriteLine("Expected: 25, 25, 25, 1, 1, 1");
+
+            k = 63;
+            Console.WriteLine(String.Join(",", Result.CoinChange2(denominations, k)));
+            Console.WriteLine("Expected: 25, 25, 10, 1, 1, 1");
+
+        }
+        static void TestCoinChange()
+        {
+            List<int> denominations;
+            int k;
+
+            denominations = new() { 1, 3, 4 };
+            k = 6;
+            Console.WriteLine(Result.CoinChange(denominations, k));
+            Console.WriteLine("Expected: 2");
+
+            denominations = new() { 1, 5, 10, 25 };
+            k = 78;
+            Console.WriteLine(Result.CoinChange(denominations, k));
+            Console.WriteLine("Expected: 6");
+
+            k = 63;
+            Console.WriteLine(Result.CoinChange(denominations, k));
+            Console.WriteLine("Expected: 6");
+        }
+
         static void TestChangeMaking()
         {
             List<int> denominations;
