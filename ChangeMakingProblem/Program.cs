@@ -25,8 +25,7 @@ namespace ChangeMakingProblem
             denominations = new() { 1, 3, 4 };
             k = 6;
             Console.WriteLine(String.Join(",", ChangeMakingProblem(denominations, k)));
-            Console.WriteLine("Expected: 2, 0, 1");
-
+            Console.WriteLine("Expected: 0, 2, 0");
 
             denominations = new() { 1, 5, 10, 25 };
             k = 78;
@@ -46,41 +45,39 @@ namespace ChangeMakingProblem
          */
         public static List<int> ChangeMakingProblem(List<int> coins, int k)
         {
-            // Square matrix: one row for each denomination, one row for each value up to k
-            int[,] m = new int[coins.Count + 1, k + 1];
+            // Create an DP Array, from 0 to K ( inclusive )
+            int[] dp = new int[k + 1];
 
-            // Fill line 0 with "infinite"
-            for (int i = 0; i <= k; i++)
-                m[0, i] = int.MaxValue;
+            // Position 0 initialized with 0, all others with max (infinite) value
+            for (int i = 1; i <= k; i++)
+                dp[i] = int.MaxValue;
 
-            // For each row - each coin denomination
-            for (int c = 1; c <= coins.Count; c++)
+            // Traverse all sub amounts from 1 to k
+            for ( int a=1; a<=k; a++)
             {
-                // For each subvalue ( all values from 1 to k - value we need to make the change )
-                for (int r = 1; r <= k; r++)
+                // Traverse all coins
+                foreach(int coin in coins)
                 {
-                    if (coins[c - 1] == r)
-                        m[c, r] = 1;
-
-                    else if (coins[c - 1] > r)
-                        m[c, r] = m[c - 1, r];
-
-                    else
-                        m[c, r] = Math.Min(m[c - 1, r], 1 + m[c, r - coins[c - 1]]);
+                    // If given amount is iqual or greater than current coin
+                    if ( a >= coin )
+                    {
+                        // Count ways of make change for this amount, based on last amounts
+                        dp[a] = Math.Min(dp[a], 1 + dp[a - coin]);
+                    }
                 }
             }
 
-            List<int> changeList = new List<int>();
+            if (dp[k] != int.MaxValue)
+                return new List<int>() { dp[k] };
+            else
+                return new List<int>() { -1 };
 
-            changeList.Add(m[coins.Count,k]);
-
-            return changeList;
         }
         /*
          *    denominations - list of coins denominations
          *    k - amount to make change for
          *    
-         *    Suboptimal aproach
+         *    Suboptimal aproach ( Greedy )
          *       Divide amount for the largest denomination, lower or equal to k
          *       Get rest of division, and keep on dividing
          */
