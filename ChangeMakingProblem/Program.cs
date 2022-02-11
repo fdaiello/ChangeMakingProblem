@@ -15,7 +15,20 @@ namespace ChangeMakingProblem
     {
         public static void Main(string[] args)
         {
-            TestCoinChange2();
+            TestCoinChangeN();
+        }
+        static void TestCoinChangeN()
+        {
+
+            List<int> denominations;
+            int k;
+
+            denominations = new() { 1, 5, 10 };
+            k = 10;
+            Console.WriteLine(Result.CoinChangeN(denominations, k));
+            Console.WriteLine("Expected: 4");
+
+
         }
         static void TestCoinChange2()
         {

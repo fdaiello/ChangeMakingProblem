@@ -9,6 +9,48 @@ namespace ChangeMakingProblem
     class Result
     {
         /*
+         * 
+         *   Coin Changin Problem
+         *   
+         *       This version returns the total possibilities of making the change
+         *       
+         *   INPUT
+         *         List<int> coins - coins denominations ( value of each possible coin )
+         *         k - amount to make change for
+         *  
+         *   OutPut
+         *         int n - number of possibilities
+         *       
+         */
+        public static int CoinChangeN( List<int> coins, int k)
+        {
+
+            // List of possibilities for each value from 0 to k
+            int[] p = new int[k + 1];
+
+            // Initialize position 0 with 1 - one possibility to make change for 0 - with 0 coins
+            p[0] = 1;
+
+            // Test each coin
+            foreach ( int coin in coins)
+            {
+                // for all subamounts before amount k
+                for ( int a =0; a<=k; a++)
+                {
+                    // Test if amount is greater or equal than coin
+                    if ( a >= coin)
+                    {
+                        p[a] += p[a - coin];
+                    }
+                }
+
+            }
+
+            // Return is possibilite acumulated for k
+            return p[k];
+        }
+
+        /*
          *   Coin Changing Problem
          *   
          *   Input
