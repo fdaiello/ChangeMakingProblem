@@ -17,6 +17,29 @@ namespace ChangeMakingProblem
         {
             TestChangeMaking();
         }
+        static int ChangeMakingAgain1(List<int> denoms, int n) 
+        {
+
+            // Memo array
+            int[] result = new int[n+1];
+            // result[0] = 0; all other init with short.MaxValue; 
+            for (int i = 1; i <= n; i++)
+                result[i] = short.MaxValue;
+
+            // Iterate for all subvalues
+            for ( int subvalue =1; subvalue<=n; subvalue++)
+                // Iterate for all coins denominations
+                for ( int coinIndex=0; coinIndex<denoms.Count; coinIndex++)
+                    if (denoms[coinIndex] <= subvalue)
+                        result[subvalue] = Math.Min(1 + result[subvalue - denoms[coinIndex]],result[subvalue]);
+
+            // Check if was there a solution
+            if (result[n] < short.MaxValue)
+                return result[n];
+            else
+                return -1;
+
+        }
         static void TestChangeMaking()
         {
             List<int> denominations;
@@ -24,18 +47,18 @@ namespace ChangeMakingProblem
 
             denominations = new() { 1, 3, 4 };
             k = 6;
-            Console.WriteLine(String.Join(",", ChangeMakingProblem(denominations, k)));
-            Console.WriteLine("Expected: 2, 0, 1");
+            Console.WriteLine(String.Join(",", ChangeMakingAgain1(denominations, k)));
+            Console.WriteLine("Expected: 2");
 
 
             denominations = new() { 1, 5, 10, 25 };
             k = 78;
-            Console.WriteLine(String.Join(",", ChangeMakingProblem(denominations, k)));
-            Console.WriteLine("Expected: 3,0,0,3");
+            Console.WriteLine(String.Join(",", ChangeMakingAgain1(denominations, k)));
+            Console.WriteLine("Expected: 6");
 
             k = 63;
-            Console.WriteLine(String.Join(",", ChangeMakingProblem(denominations, k)));
-            Console.WriteLine("Expected: 3,0,1,2");
+            Console.WriteLine(String.Join(",", ChangeMakingAgain1(denominations, k)));
+            Console.WriteLine("Expected: 6");
         }
         /*
          *   Optimal solution with Dynamic Programing
