@@ -17,6 +17,65 @@ namespace ChangeMakingProblem
         {
             TestChangeMaking();
         }
+        public static int NumberOfWaysToMakeChange(int n, int[] denoms)
+        {
+            // Write your code here.
+            return -1;
+
+        }
+        public static void TestNumberofWaysToMakeChange()
+        {
+            int n = 6;
+            int[] denoms = { 1, 5 };
+            Console.WriteLine(NumberOfWaysToMakeChange(n, denoms));
+
+        }
+        static void TestChangeMakingNaive()
+        {
+            List<int> denominations;
+            int k;
+
+            denominations = new() { 1, 3, 4 };
+            k = 6;
+            Console.WriteLine(String.Join(",", ChangeMakingNaive(denominations, k)));
+            Console.WriteLine("Expected: 2");
+
+
+            denominations = new() { 1, 5, 10, 25 };
+            k = 78;
+            Console.WriteLine(String.Join(",", ChangeMakingNaive(denominations, k)));
+            Console.WriteLine("Expected: 6");
+
+            k = 63;
+            Console.WriteLine(String.Join(",", ChangeMakingNaive(denominations, k)));
+            Console.WriteLine("Expected: 6");
+        }
+        static int ChangeMakingNaive(List<int> denoms, int n)
+        {
+
+            int rest = n;
+            int nCoins = 0;
+            denoms.Sort();
+
+            int coinIndex = denoms.Count - 1;
+            
+            while ( rest > 0 && coinIndex >= 0)
+            {
+                if (rest >= denoms[coinIndex]) 
+                {
+                    nCoins += rest / denoms[coinIndex];
+                    rest %= denoms[coinIndex];
+                }
+                coinIndex--;
+            }
+
+            if (rest > 0)
+                return -1;
+            else
+                return nCoins;
+
+        }
+
         static int ChangeMakingAgain1(List<int> denoms, int n) 
         {
 
